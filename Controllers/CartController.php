@@ -13,7 +13,7 @@ class CartController extends BaseController
 
     public function index()
     {
-        $_POST['id_user'] = 1;
+        // $_POST['id_user'] = 1;
         if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
             $id_user = $_POST['id_user'];
             $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");
@@ -41,7 +41,7 @@ class CartController extends BaseController
     }
     public function addToCart()
     {
-        $_POST['id_product'] = 3;
+        // $_POST['id_product'] = 3;
         if (isset($_POST['id_product'])) {
             $flag = $this->cartModel->add_to_cart(CartModel::TABLE, $_POST['id_product']);
         }
