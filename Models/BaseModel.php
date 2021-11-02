@@ -39,8 +39,6 @@ class BaseModel extends Database{
             $conds .= ' = ' . "\"". $value . "\"". " AND ";
         }
         $conds = substr($conds, 0 , -4);
-
-        // handle columns
         $cols = '';
         if($columns !== NULL){
             foreach($columns as $value){
@@ -168,7 +166,6 @@ class BaseModel extends Database{
         $row = substr($row, 0, -2);
         $sql = "INSERT INTO " . '`'. $table . '` ('. $cols. ") VALUES ( " .$row.  " )";
         $query = $this->__query($sql);
-      
         var_dump($query);
         if($query){
             return 1;

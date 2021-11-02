@@ -1,44 +1,43 @@
 <?php 
 class CartModel extends BaseModel{
-    const TABLE = 'carts';
-    public function add_to_cart($table, $productCode){
+    const TABLE = 'cart';
+    public function add_to_cart($table, $id_product){
          return $this->add($table,[
-            'productCode' => $productCode,
+            'id_product' => $id_product,
         ]);
     }
     public function fetchCartByUser($id_user, $username){
-        $sql = "SELECT carts.id_cart, carts.id_user,  carts.id_book,books.name, carts.quantity, books.price, carts.paymented, books.image FROM `carts` INNER JOIN `user` ON carts.id_user = user.id
-        INNER JOIN books ON carts.id_book = books.id_book
-        WHERE carts.id_user = '".$id_user."' OR user.username = '". $username . "'" ;  
+        $sql = "SELECT cart.id, cart.id_user, cart.id_product, products.name, cart.quantity, products.price FROM cart INNER JOIN user ON cart.id_user = user.id 
+        INNER JOIN products ON cart.id_product = products.id WHERE cart.id_user = " . $id_user .  " OR user.username = '". $username . "';" ;  
         return $this->queryWithSql($sql);
     }
-    public function add($table, $productCode){
-            $productCode = $_POST['productCode'];
-            $sql = "SELECT * FROM products WHERE productCode = \"" . $productCode . "\""; 
+    public function add($table, $id_product){
+            $id_product = $_POST['id_product'];
+            $sql = "SELECT * FROM products WHERE id = \"" . $id_product . "\""; 
             $results =  $this->__query($sql);
             
             $product = mysqli_fetch_row($results);
             if(!isset($_SESSION["cart"])){
-                $cart[$productCode] = array(
-                    'productCode' => $product[0],
-                    'productName' => $product[1],
-                    'buyPrice' =>$product[7],
+                $cart[$id_product] = array(
+                    'id_product' => $product[0],
+                    'name' => $product[1],
+                    'price' =>$product[5],
                     'quantity' => 1,
                 );                       
             }else{
                 $cart = $_SESSION['cart'];
-                if(array_key_exists($productCode, $cart)){
-                    $cart[$productCode] = array(
-                        'productCode' => $product[0],
-                        'productName' => $product[1],
-                        'buyPrice' =>$product[7],
-                        'quantity' => $cart[$productCode]["quantity"] + 1,
+                if(array_key_exists($id_product, $cart)){
+                    $cart[$id_product] = array(
+                        'id_product' => $product[0],
+                        'name' => $product[1],
+                        'price' =>$product[5],
+                        'quantity' => $cart[$id_product]["quantity"] + 1,
                     );
                 }else{
-                    $cart[$productCode] = array(
-                        'productCode' => $product[0],
-                        'productName' => $product[1],
-                        'buyPrice' =>$product[7],
+                    $cart[$id_product] = array(
+                        'id_product' => $product[0],
+                        'name' => $product[1],
+                        'price' =>$product[5],
                         'quantity' =>  1,
                     );
                 }
@@ -69,10 +68,10 @@ class CartModel extends BaseModel{
             $_SESSION['cart'] = $cart;
             return $_SESSION['cart'];
     }   
-    public function editBook($table, $id_book,$quantity){
+    public function editProduct($table, $id_product, $quantity){
         return $this->editDbWithCond($table, [
             'quantity' => $quantity,
-            'id_book' => $id_book,
+            'id_product' => $id_product,
         ]);
     }
 }

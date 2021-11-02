@@ -178,20 +178,7 @@ class BookController extends BaseController {
         }
         
     }
-    public function deleteBookById(){
-        if(isset($_POST['id_book'])){
-            $id_book = $_POST['id_book'];
-           $flag = $this->bookModel->deleteByID(BookModel::TABLE, $id_book);
-            if($flag){
-                echo json_encode(
-                    [
-                        'status' => 200, 
-                        'payload' => $flag  
-                    ]
-                    );
-            }
-        }
-    }
+
     
 }
 ?>

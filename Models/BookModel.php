@@ -40,10 +40,5 @@ class BookModel extends BaseModel{
     public function fetchByManyConditions($conditions){
         return $this->queryWithSql($conditions);
     }
-    public function deleteByID($table, $id_book){
-        return $this->deleteWithCond($table, [
-            'id_book' => $id_book
-        ]);
-    }
 }
 ?>

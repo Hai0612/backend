@@ -9,10 +9,12 @@ class CommentController extends BaseController{
         $this->commentModel = new CommentModel;
     }
     public function addComment(){
-        if(isset($_POST['content']) && isset($_POST['id_book'])){
-            $id_book = $_POST['id_book'];
+        $_POST['content'] = 'abcd test 2';
+        $_POST['id_product'] = 3;
+        if(isset($_POST['content']) && isset($_POST['id_product'])){
+            $id_book = $_POST['id_product'];
             $content = $_POST['content'];
-            $flag =  $this->commentModel->addCmt(CommentModel::TABLE,$username = 'Hai',$id_book, $content);
+            $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user = 2, $id_book, $content);
             if($flag){
                
                 echo json_encode($flag);
@@ -20,15 +22,18 @@ class CommentController extends BaseController{
         }
         // $this->getCommentByProductCode();
     }
-    public function getByIdbook(){
+    public function getByIdProduct(){
         
-        if(isset($_GET['id_book'])){
-            $id_book = $_GET['id_book'];
-            $listCmt = $this->commentModel->getCmtByBook(CommentModel::TABLE,$id_book);
+        if(isset($_GET['id_product'])){
+            $id_product = $_GET['id_product'];
+            $listCmt = $this->commentModel->getCmtByProduct(CommentModel::TABLE,$id_product);
             echo json_encode($listCmt);
+            echo "<pre/>";
+            echo print_r($listCmt);
         }
     
     }
+    //-----------------------
     public function increVote(){
         if(isset($_GET['id_comment'])){
             $id_comment = $_GET['id_comment'];

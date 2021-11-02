@@ -13,12 +13,12 @@ class CategoryController extends BaseController {
         if(isset($_GET['page'])){
             $page  = $_GET['page'];
         }
-        $line = NULL;
-        if(isset($_GET['line'])){
-            $line = $_GET['line'];
+        $category_id = NULL;
+        if(isset($_GET['category_id'])){
+            $category_id = $_GET['category_id'];
         }
-        $line = str_replace('-', ' ', $line);
-        $products = $this->categoryModel->showbyline(CategoryModel::TABLE, $line  , $page);
+        $category_id = str_replace('-', ' ', $category_id);
+        $products = $this->categoryModel->showbyCategoryId(CategoryModel::TABLE, $category_id  , $page);
         $nextPage = (sizeof($products) === 9) ? ( $page +1 ) : $page;
            $this->view('frontend.categories.index',[
                'products' => $products,
@@ -26,18 +26,25 @@ class CategoryController extends BaseController {
            ]);
     }
     public function addProductByCategory(){
-        $code = $_POST['code'] ? $_POST['code'] : false;
+        // $id = 21;
+        // $name =  'Áo siêu nhân';
+        // $description = 'Áo có hình siêu nhân';
+        // $category_id = 1;
+        // $inventory_id = 21;
+        // $price = 40000;
+        // $discount_id = 1;
+        
+        
+        $id = $_POST['id'] ? $_POST['id'] : false;
         $name =  $_POST['name'] ? $_POST['name'] : false;
-        $vendor = $_POST['vendor'] ? $_POST['vendor'] : false;
-        $line = $_GET['line'] ? $_GET['line'] :false;
-        $scale = $_POST['scale'] ? $_POST['scale'] : false;
-        $quantity = $_POST['quantity'] ? $_POST['quantity'] : false;
+        $description = $_POST['description'] ? $_POST['description'] : false;
+        $category_id = $_GET['category_id'] ? $_GET['category_id'] :false;
+        $inventory_id = $_POST['inventory_id'] ? $_POST['inventory_id'] : false;
         $price = $_POST['price'] ? $_POST['price'] : false;
-        $msrp = $_POST['msrp'] ? $_POST['msrp']: false;
-        $image = $_POST['image'] ? $_POST['image'] : false;
-        $desc = $_POST['desc'] ? $_POST['desc'] : false;
-        $this->categoryModel->addProduct(CategoryModel::TABLE, $code, $name, $line,  $vendor,$scale, $quantity,$price, $msrp, $image, $desc);
-        header("Location:" .BASE_URL ."index.php?controller=category&line=" .$line);
+        $discount_id = $_POST['discount_id'] ? $_POST['discount_id']: false;
+        $this->categoryModel->addProduct(CategoryModel::TABLE, $id, $name, $description, $category_id, $inventory_id, $price, $discount_id);
+        header("Location:" .BASE_URL ."index.php?controller=category&category_id=" .$category_id);
     }
+
 }
 ?>

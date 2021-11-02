@@ -16,13 +16,12 @@ class UserModel extends BaseModel{
                 'username' => $username,
             ]);
         }
-        public function signup($table, $username, $password, $firstname ,$lastname, $email, $date){
+        public function signup($table, $username, $password, $first_name ,$last_name, $date, $url){
             $flag = $this->checkExistInDB($table, [
                 'username' => $username,
             ]);
             if(!$flag){
-                $flag = $this->addAccount($table, $username, $password, $firstname ,$lastname, $email, $date);      
-              
+                $flag = $this->addAccount($table, $username, $password, $first_name ,$last_name, $date, $url);        
             }
             return $flag;
         }
@@ -31,16 +30,15 @@ class UserModel extends BaseModel{
                 'username' => $username,
             ]);
         }
-        public function addAccount($table, $username, $password, $firstname, $lastname ,$email, $date){
+        public function addAccount($table, $username, $password, $first_name, $last_name , $date, $url){
             
             return $this->insertDB($table,[
-              
                 'username' => $username,
                 'password' => $password,
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'email' => $email,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
                 'date' => $date,
+                'url' => $url,
             ]);
         }
         
