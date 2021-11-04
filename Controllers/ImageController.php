@@ -12,9 +12,21 @@ class ImageController extends BaseController{
         if(isset($_GET['id_product'])){
             $id_product = $_GET['id_product'];
             $listImage = $this->imageModel->getImagesByProduct(ImageModel::TABLE,$id_product);
-            echo json_encode($listImage);
-            echo "<pre/>";
-            echo print_r($listImage);
+            if ($listImage) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $listImage,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
         }
     
     }

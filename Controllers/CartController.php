@@ -13,37 +13,67 @@ class CartController extends BaseController
 
     public function index()
     {
-        // $_POST['id_user'] = 1;
+         $_POST['id_user'] = 1;
         if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
             $id_user = $_POST['id_user'];
             $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");
-            echo json_encode(
-                [
-                    'status' => 200,
-                    'payload' => $cart,
-                ]
-            );
-            echo "<pre/>";
-            echo print_r($cart);
+            if ($cart) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $cart,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
         }
         if (isset($_POST['username']) && $_POST['username'] !== '') {
             $username = $_POST['username'];
             $cart = $this->cartModel->fetchCartByUser('nfdsfsf', $username);
-            echo json_encode(
-                [
-                    'status' => 200,
-                    'payload' => $cart,
-                ]
-            );
-            echo "<pre/>";
-            echo print_r($cart);
+            if ($cart) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $cart,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+
         }
     }
     public function addToCart()
     {
-        // $_POST['id_product'] = 3;
-        if (isset($_POST['id_product'])) {
-            $flag = $this->cartModel->add_to_cart(CartModel::TABLE, $_POST['id_product']);
+        //$_POST['id_variant'] = 2;
+        if (isset($_POST['id_variant'])) {
+            $flag = $this->cartModel->add_to_cart(CartModel::TABLE, $_POST['id_variant']);
+            if ($flag) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $flag,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
         }
     }
     public function showCart()

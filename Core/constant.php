@@ -1,3 +1,3 @@
 <?php 
-    define('BASE_URL', 'https://localhost/myproject/src/api/');
+    define('BASE_URL', 'https://localhost/ecommerce_backend/');
 ?>

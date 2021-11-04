@@ -25,6 +25,26 @@ class CategoryController extends BaseController {
                'nextPage' => $nextPage,
            ]);
     }
+
+    public function getByOption(){
+        $_POST['category'] = 'T-shirt';
+        $_POST['brand'] = 'Adidas';
+        $_POST['price'] = 'Từ 1 - 5 triệu';
+        $_POST['state'] = 1;
+        if(isset($_POST['category']) && isset($_POST['brand']) && isset($_POST['price']) && isset($_POST['state'])){
+            $category  = $_POST['category'];
+            $brand  = $_POST['brand'];
+            $price  = $_POST['price'];
+            $state  = $_POST['state'];
+            $products = $this->categoryModel->getProductsByOption(CategoryModel::TABLE, $category, $brand, null, $state);
+            echo json_encode(
+                array(
+                    'status' => '200',
+                    'payload' => $products,
+                )
+            );
+        }
+    }
     public function addProductByCategory(){
         // $id = 21;
         // $name =  'Áo siêu nhân';
@@ -38,12 +58,10 @@ class CategoryController extends BaseController {
         $id = $_POST['id'] ? $_POST['id'] : false;
         $name =  $_POST['name'] ? $_POST['name'] : false;
         $description = $_POST['description'] ? $_POST['description'] : false;
-        $category_id = $_GET['category_id'] ? $_GET['category_id'] :false;
-        $inventory_id = $_POST['inventory_id'] ? $_POST['inventory_id'] : false;
+        $category_id = $_GET['category_id'] ? $_GET['category_id'] : false;
         $price = $_POST['price'] ? $_POST['price'] : false;
         $discount_id = $_POST['discount_id'] ? $_POST['discount_id']: false;
-        $this->categoryModel->addProduct(CategoryModel::TABLE, $id, $name, $description, $category_id, $inventory_id, $price, $discount_id);
-        header("Location:" .BASE_URL ."index.php?controller=category&category_id=" .$category_id);
+        $this->categoryModel->addProduct(CategoryModel::TABLE, $id, $name, $description, $category_id, $price, $discount_id);
     }
 
 }

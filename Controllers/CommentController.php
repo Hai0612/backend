@@ -9,15 +9,25 @@ class CommentController extends BaseController{
         $this->commentModel = new CommentModel;
     }
     public function addComment(){
-        $_POST['content'] = 'abcd test 2';
-        $_POST['id_product'] = 3;
+        // $_POST['content'] = 'abcd test 2';
+        // $_POST['id_product'] = 3;
         if(isset($_POST['content']) && isset($_POST['id_product'])){
             $id_book = $_POST['id_product'];
             $content = $_POST['content'];
             $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user = 2, $id_book, $content);
-            if($flag){
-               
-                echo json_encode($flag);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $flag
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
             }
         }
         // $this->getCommentByProductCode();
@@ -27,9 +37,20 @@ class CommentController extends BaseController{
         if(isset($_GET['id_product'])){
             $id_product = $_GET['id_product'];
             $listCmt = $this->commentModel->getCmtByProduct(CommentModel::TABLE,$id_product);
-            echo json_encode($listCmt);
-            echo "<pre/>";
-            echo print_r($listCmt);
+            if ($listCmt) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $listCmt
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
         }
     
     }
