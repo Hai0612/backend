@@ -19,7 +19,6 @@ class UserController extends BaseController
     }
     public function login()
     {
-        $result = false;
         if (isset($_POST['username']) && isset($_POST['password'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -33,10 +32,11 @@ class UserController extends BaseController
                     'status' => 200,
                     'token' => $token
                 ]);
+            } else {
+                echo json_encode([
+                    'status' => 404,
+                ]);
             }
-            echo 'abcd';
-        } else {
-            echo $result;
         }
     }
     public function authenticate()
@@ -67,24 +67,81 @@ class UserController extends BaseController
             );
         }
     }
+    public function getInfo()
+    {
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+            $info = $this->userModel->getUserInfo($id);
+            if (count($info) > 0) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $info
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+    public function getPaymentInfo()
+    {
+        $_POST['user_id'] = 4;
+        if (isset($_POST['user_id'])) {
+            $user_id = $_POST['user_id'];
+            $payment = $this->userModel->getUserPaymentInfo($user_id);
+            if (count($payment) > 0) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $payment
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
     public function signup()
     {
-        $flag = false;
-        $_POST['username'] = 'testuser10';
-        $_POST['password'] = 'testpwd';
-        $_POST['first_name'] = 'First';
-        $_POST['last_name'] = 'Last';
-        $_POST['date'] =  date("Y-m-d");
+
         if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['date'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
+            $email = $_POST['email'];
             $date =  $_POST['date'];
             $url = 'abcde.xyz/' . $username;
-            $flag = $this->userModel->signup(UserModel::TABLE, $username, $password, $first_name, $last_name, $date, $url);
+            $address = $_POST['address'];
+            $city = $_POST['city'];
+            $postal_code = $_POST['postal_code'];
+            $country = $_POST['country'];
+            $telephone = $_POST['telephone'];
+            $flag = $this->userModel->signup(UserModel::TABLE, $username, $password, $first_name, $last_name, $date, $email, $url, $address, $city, $postal_code, $country, $telephone);
         }
-        echo $flag;
+        if ($flag) {
+            echo json_encode(
+                [
+                    'status' => 200,
+                    'payload' => $flag
+                ]
+            );
+        } else {
+            echo json_encode(
+                [
+                    'status' => 404,
+                ]
+            );
+        }
     }
 
     public function logout()

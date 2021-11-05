@@ -13,7 +13,6 @@ class CartController extends BaseController
 
     public function index()
     {
-         $_POST['id_user'] = 1;
         if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
             $id_user = $_POST['id_user'];
             $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");
@@ -54,9 +53,74 @@ class CartController extends BaseController
 
         }
     }
+
+    public function decreaseQuantity(){
+        if (isset($_POST['id_user']) && isset($_POST['id_variant'])) {
+            $id_user = $_POST['id_user'];
+            $id_variant = $_POST['id_variant'];
+            $flag = $this->cartModel->decreaseQuantityProduct(CartModel::TABLE, $id_user, $id_variant);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                    ]
+                );
+            }
+            else{
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+    public function increaseQuantity(){
+        if (isset($_POST['id_user']) && isset($_POST['id_variant'])) {
+            $id_user = $_POST['id_user'];
+            $id_variant = $_POST['id_variant'];
+            $flag = $this->cartModel->increaseQuantityProduct(CartModel::TABLE, $id_user, $id_variant);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                    ]
+                );
+            }
+            else{
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+   
+    public function deleteProduct()
+    {
+        if (isset($_POST['id_user']) && isset($_POST['id_variant'])) {
+            $id_user = $_POST['id_user'];
+            $id_variant = $_POST['id_variant'];
+            $flag = $this->cartModel->deleteProductInCart(CartModel::TABLE, $id_user, $id_variant);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                    ]
+                );
+            }
+            else{
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
     public function addToCart()
     {
-        //$_POST['id_variant'] = 2;
         if (isset($_POST['id_variant'])) {
             $flag = $this->cartModel->add_to_cart(CartModel::TABLE, $_POST['id_variant']);
             if ($flag) {
@@ -76,6 +140,8 @@ class CartController extends BaseController
             }
         }
     }
+
+    //------------------------------------------------------
     public function showCart()
     {
         // if(isset($_SESSION['login'])){

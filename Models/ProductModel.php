@@ -32,12 +32,6 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
-    public function getProductQuantity($id)
-    {
-        $sql = "SELECT product_inventory.quantity FROM products join product_inventory on products.inventory_id = product_inventory.id and products.id = {$id};";
-        return $this->queryWithSql($sql);
-    }
-
     
     // public function sortProduct($table, $criteria, $order)
     // {

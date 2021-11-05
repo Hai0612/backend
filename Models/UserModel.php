@@ -16,12 +16,21 @@ class UserModel extends BaseModel{
                 'username' => $username,
             ]);
         }
-        public function signup($table, $username, $password, $first_name ,$last_name, $date, $url){
+        public function getUserInfo($id) {
+            $sql = "SELECT * FROM user join user_address on user.id = user_address.id_user where user.id = {$id};";
+            return $this->queryWithSql($sql);
+        }
+        public function getUserPaymentInfo($user_id) {
+            $sql = "SELECT * FROM user_payment where user_id = {$user_id};";
+            return $this->queryWithSql($sql);
+        }
+        public function signup($table, $username, $password, $first_name, $last_name, $date, $email, $url, $address, $city, $postal_code, $country, $telephone){
             $flag = $this->checkExistInDB($table, [
                 'username' => $username,
             ]);
             if(!$flag){
-                $flag = $this->addAccount($table, $username, $password, $first_name ,$last_name, $date, $url);        
+                $flag = $this->addAccount($username, $password, $first_name , $last_name, $date, $email, $url);   
+                $this->addUserInfo($address, $city, $postal_code, $country, $telephone);     
             }
             return $flag;
         }
@@ -30,19 +39,29 @@ class UserModel extends BaseModel{
                 'username' => $username,
             ]);
         }
-        public function addAccount($table, $username, $password, $first_name, $last_name , $date, $url){
+        public function addAccount($username, $password, $first_name, $last_name, $date, $email, $url){
             
-            return $this->insertDB($table,[
+            return $this->insertDB('user',[
                 'username' => $username,
                 'password' => $password,
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'date' => $date,
+                'email' => $email,
                 'url' => $url,
             ]);
         }
+
+        public function addUserInfo($address, $city, $postal_code, $country, $telephone){
+            return $this->insertDB('user_address',[
+                'address' => $address,
+                'city' => $city,
+                'postal_code' => $postal_code,
+                'country' => $country,
+                'telephone' => $telephone,
+            ]);
+        }
         
-      
 }
 
 ?>

@@ -181,7 +181,13 @@ class BaseModel extends Database{
             array_push($data, $row);
         }
         return $data;
-
+    }
+    public function updateWithSql($sql){
+        $query = $this->__query($sql);
+        if($query){
+            return true;
+        }
+        return false;
     }
     public function deleteWithCond($table, $conditions = NULL){
         $cond = '';

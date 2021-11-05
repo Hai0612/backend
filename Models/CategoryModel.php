@@ -29,6 +29,11 @@ class CategoryModel extends BaseModel
         );
     }
 
+    public function fetchAllCategories() {
+        $sql = "SELECT * FROM product_category LIMIT 6";
+        return $this->queryWithSql($sql);
+    }
+
     public function getProductsByOption($table, $category, $brand, $price, $state){
         $priceRange = '';
         if($price === "0 - 500.000") {
@@ -47,14 +52,12 @@ class CategoryModel extends BaseModel
         if ($category != null) $conditions .= "product_category.name_category = '" .$category . "' AND ";
         if ($brand != null) $conditions .= "brand.name_brand = '" .$brand . "' AND ";
         if ($price != null) $conditions .= "product.price " .$priceRange . " AND ";
-        if ($state != null) $conditions .= "month(datediff(now(), products.createAt)) < 2 AND ";
+        if ($state != null) $conditions .= "datediff(now(), products.createAt) < 60 AND ";
         $conditions = substr($conditions, 0, -5);
         $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id WHERE  ' .$conditions . ";";
-        echo $sql;
         //die();
         return $this->queryWithSql($sql);
     }
-
     public function addProduct($table, $id, $name, $description, $category_id, $price, $discount_id)
     {
         return $this->insertDB($table, [

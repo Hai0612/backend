@@ -9,12 +9,12 @@ class CommentController extends BaseController{
         $this->commentModel = new CommentModel;
     }
     public function addComment(){
-        // $_POST['content'] = 'abcd test 2';
-        // $_POST['id_product'] = 3;
+
         if(isset($_POST['content']) && isset($_POST['id_product'])){
             $id_book = $_POST['id_product'];
+            $id_user = $_POST['id_user'];
             $content = $_POST['content'];
-            $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user = 2, $id_book, $content);
+            $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user, $id_book, $content);
             if ($flag) {
                 echo json_encode(
                     [
@@ -36,7 +36,7 @@ class CommentController extends BaseController{
         
         if(isset($_GET['id_product'])){
             $id_product = $_GET['id_product'];
-            $listCmt = $this->commentModel->getCmtByProduct(CommentModel::TABLE,$id_product);
+            $listCmt = $this->commentModel->getCmtByProduct($id_product);
             if ($listCmt) {
                 echo json_encode(
                     [

@@ -15,6 +15,22 @@ class CartModel extends BaseModel
         INNER JOIN products on product_variant.id_product = products.id WHERE cart.id_user = " . $id_user .  " OR user.username = '" . $username . "';";
         return $this->queryWithSql($sql);
     }
+
+    public function decreaseQuantityProduct($table ,$id_user , $id_variant){
+        $sql = "UPDATE cart SET cart.quantity = ((SELECT cart.quantity FROM cart WHERE cart.id_user = " .$id_user. " AND cart.id_variant = " .$id_variant ." ) - 1 )  WHERE cart.id_user = " .$id_user." AND cart.id_variant = " .$id_variant;
+        return $this->updateWithSql($sql);
+    }
+    public function increaseQuantityProduct($table ,$id_user , $id_variant){
+        $sql = "DELETE FROM cart  WHERE cart.id_user = " .$id_user. " AND cart.id_variant = " .$id_variant ;
+        return $this->updateWithSql($sql);
+    }
+    public function deleteProductInCart($table ,$id_user , $id_variant){
+        return $this->deleteWithCond($table, [
+            'id_user' => $id_user,
+            'id_variant' => $id_variant
+        ]);
+    }
+    
     public function add($table, $id_variant)
     {
         $id_variant = $_POST['id_variant'];

@@ -6,6 +6,7 @@ class ProductController extends BaseController
     private $userModel;
     public function __construct()
     {
+        $_POST = json_decode(file_get_contents("php://input"), true);
         $this->loadModel('ProductModel');
         $this->productModel = new ProductModel;
     }
@@ -13,7 +14,7 @@ class ProductController extends BaseController
     public function getAll()
     {
         $products = $this->productModel->getAllProduct(ProductModel::TABLE);
-        if ($products) {
+        if (count($products) > 0) {
             echo json_encode(
                 [
                     'status' => 200,
@@ -34,7 +35,7 @@ class ProductController extends BaseController
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $products = $this->productModel->getProductByIndex(ProductModel::TABLE, $id);
-            if ($products) {
+            if (count($products) > 0) {
                 echo json_encode(
                     [
                         'status' => 200,
@@ -56,7 +57,7 @@ class ProductController extends BaseController
         if (isset($_GET['category'])) {
             $category = $_GET['category'];
             $products = $this->productModel->getProductsByCategory(ProductModel::TABLE, $category);
-            if ($products) {
+            if (count($products) > 0) {
                 echo json_encode(
                     [
                         'status' => 200,
@@ -78,7 +79,7 @@ class ProductController extends BaseController
         if (isset($_GET['brand'])) {
             $brand = $_GET['brand'];
             $products = $this->productModel->getProductsByBrand(ProductModel::TABLE, $brand);
-            if ($products) {
+            if (count($products) > 0) {
                 echo json_encode(
                     [
                         'status' => 200,
@@ -99,7 +100,7 @@ class ProductController extends BaseController
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $products = $this->productModel->getRelatedProducts($id);
-            if ($products) {
+            if (count($products) > 0) {
                 echo json_encode(
                     [
                         'status' => 200,
@@ -127,7 +128,7 @@ class ProductController extends BaseController
         // set tạm max
         else $max = 100000000;
         $products = $this->productModel->getProductsByPrice($min, $max);
-        if ($products) {
+        if (count($products) > 0) {
             echo json_encode(
                 [
                     'status' => 200,
@@ -143,12 +144,8 @@ class ProductController extends BaseController
         }
     }
 
-
-    
-
     public function searchMachine()
     {
-        //$_POST['searchText'] = 'dài';
         if (isset($_POST['searchText'])) {
             $text = $_POST['searchText'];
             $results_product = $this->productModel->fetchByMachineSearch($text);
@@ -161,27 +158,6 @@ class ProductController extends BaseController
         }
     }
 
-    public function getQuantity()
-    {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $quantity = $this->productModel->getProductQuantity($id);
-            if ($quantity) {
-                echo json_encode(
-                    [
-                        'status' => 200,
-                        'payload' => $quantity
-                    ]
-                );
-            } else {
-                echo json_encode(
-                    [
-                        'status' => 404,
-                    ]
-                );
-            }
-        }
-    }
     public function editProduct()
     {
         if (isset($_POST['name']) && isset($_POST['id'])) {
@@ -199,8 +175,7 @@ class ProductController extends BaseController
                         'payload' => $flag,
                     )
                 );
-            }
-            else {
+            } else {
                 echo json_encode(
                     [
                         'status' => 404,
@@ -229,7 +204,7 @@ class ProductController extends BaseController
         }
     }
 
-    //-------------
+    //--------------------------
     public function index()
     {
         $this->loadModel('UserModel');

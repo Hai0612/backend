@@ -7,13 +7,9 @@ class CommentModel extends BaseModel {
     {
         $this->connect = $this->connect();
     }
-    public function getCmtByProduct($table, $id_product){
-
-        return $this->getWithCond($table,[
-                'id_product' => $id_product,
-        ],null , null ,[
-            'date' => 'DESC'
-      ]);
+    public function getCmtByProduct($id_product){
+        $sql = "SELECT * FROM comments join user on comments.id_user = user.id where id_product = {$id_product} order by comments.date desc;";
+        return $this->queryWithSql($sql);
     }
     public function increVoteByID($table, $id_comment){
         $sql = ' UPDATE `comments` SET comments.vote = ((SELECT comments.vote FROM comments WHERE comments.id_comment = \''. $id_comment .'\') + 1) WHERE comments.id_comment = \''.$id_comment.'\'';
