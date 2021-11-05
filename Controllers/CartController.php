@@ -148,6 +148,48 @@ class CartController extends BaseController
         //     $this->cartModel->show_cart_by_user(ConsumerModel::TABLE, $_SESSION['login']);
         // }
     }
+    public function fetchByUser()
+    {   
+        if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
+            $id_user = $_POST['id_user'];
+            $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");
+            if ($cart) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $cart,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+        if (isset($_POST['username']) && $_POST['username'] !== '') {
+            $username = $_POST['username'];
+            $cart = $this->cartModel->fetchCartByUser('nfdsfsf', $username);
+            if ($cart) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $cart,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+
+        }
+    }
     public function deleteProductInCart()
     {
     }

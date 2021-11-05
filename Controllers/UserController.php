@@ -68,10 +68,10 @@ class UserController extends BaseController
         }
     }
     public function getInfo()
-    {
+    {   
         if (isset($_POST['id'])) {
             $id = $_POST['id'];
-            $info = $this->userModel->getUserInfo($id);
+            $info = $this->userModel->getUserInfo(UserModel::TABLE,$id);
             if (count($info) > 0) {
                 echo json_encode(
                     [

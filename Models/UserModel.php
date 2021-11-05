@@ -16,7 +16,7 @@ class UserModel extends BaseModel{
                 'username' => $username,
             ]);
         }
-        public function getUserInfo($id) {
+        public function getUserInfo($table, $id) {
             $sql = "SELECT * FROM user join user_address on user.id = user_address.id_user where user.id = {$id};";
             return $this->queryWithSql($sql);
         }
