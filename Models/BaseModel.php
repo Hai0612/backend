@@ -201,17 +201,19 @@ class BaseModel extends Database{
         }
         return false;
     }
-    public function editDbWithCond($table, $conditions = NULL){
-        $cond = '';
-        $id_b = '';
-        foreach($conditions as $key => $value){
-            if($key == 'id_book'){
-                $id_b = $value;
-            }
-            $cond .= '`'. $key . '`' .' = \''. $value . '\' ,';
+    public function editDbWithCond($table, $newValue = NULL, $conditions = NULL){
+        $newVal = '';
+        foreach($newValue as $key => $value){
+            $newVal .= '`'. $key . '`' .' = \''. $value . '\' ,';
         }
-        $cond = substr($cond, 0 , -1);
-        $sql = 'UPDATE '. $table . ' SET ' .$cond .' WHERE id_book = \'' . $id_b .'\'';
+        $conds = '';
+        foreach($conditions as $key => $value){
+            $conds .= $key;
+            $conds .= ' = ' . "\"". $value . "\"". " AND ";
+        }
+        $newVal = substr($newVal, 0 , -1);
+        $conds = substr($conds, 0 , -4);
+        $sql = 'UPDATE '. $table . ' SET ' .$newVal . ' WHERE '. $conds;
         $query = $this->__query($sql);
         if($query){
             return true;
