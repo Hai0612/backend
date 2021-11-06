@@ -2,10 +2,14 @@
 class CartModel extends BaseModel
 {
     const TABLE = 'cart';
-    public function add_to_cart($table, $id_product)
+    public function add_to_cart($table,$id_user ,$id_variant,$quantity)
     {
-        return $this->add($table, [
-            'id_product' => $id_product,
+        return $this->insertDB($table, [
+            'id_user' => $id_user,
+            'id_variant' => $id_variant,
+            'quantity' => $quantity,
+            'created_at' => date("Y-m-d"),
+            'modified_at' => date("Y-m-d"),
         ]);
     }
     public function fetchCartByUser($id_user, $username)
@@ -21,7 +25,8 @@ class CartModel extends BaseModel
         return $this->updateWithSql($sql);
     }
     public function increaseQuantityProduct($table ,$id_user , $id_variant){
-        $sql = "DELETE FROM cart  WHERE cart.id_user = " .$id_user. " AND cart.id_variant = " .$id_variant ;
+        $sql = "UPDATE cart SET cart.quantity = ((SELECT cart.quantity FROM cart WHERE cart.id_user = " .$id_user. " AND cart.id_variant = " .$id_variant ." ) + 1 )  WHERE cart.id_user = " .$id_user." AND cart.id_variant = " .$id_variant;
+
         return $this->updateWithSql($sql);
     }
     public function deleteProductInCart($table ,$id_user , $id_variant){

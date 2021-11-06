@@ -166,7 +166,6 @@ class BaseModel extends Database{
         $row = substr($row, 0, -2);
         $sql = "INSERT INTO " . '`'. $table . '` ('. $cols. ") VALUES ( " .$row.  " )";
         $query = $this->__query($sql);
-        var_dump($query);
         if($query){
             return 1;
         }
@@ -196,8 +195,6 @@ class BaseModel extends Database{
         }
         $cond = substr($cond, 0 , -4);
         $sql = "DELETE FROM " . $table . " WHERE " . $cond;
-        echo $sql;
-        die();
         $query = $this->__query($sql);  
         if($query){
             return true;

@@ -10,7 +10,7 @@ class ProductModel extends BaseModel
 
     public function getProductByIndex($table, $id)
     {
-        $sql = "SELECT name, description, color, size, quantity, product_variant.price FROM products join product_variant on product_variant.id_product = products.id where products.id = {$id};";
+        $sql = "SELECT * FROM products join product_variant on product_variant.id_product = products.id where products.id = {$id};";
         return $this->queryWithSql($sql);
     }
 

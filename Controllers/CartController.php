@@ -121,8 +121,11 @@ class CartController extends BaseController
     }
     public function addToCart()
     {
-        if (isset($_POST['id_variant'])) {
-            $flag = $this->cartModel->add_to_cart(CartModel::TABLE, $_POST['id_variant']);
+        if (isset($_POST['id_variant']) && isset($_POST['id_user']) && isset($_POST['quantity'])) {
+            $id_variant = $_POST['id_variant'];
+            $id_user = $_POST['id_user'];
+            $quantity = $_POST['quantity'];
+            $flag = $this->cartModel->add_to_cart(CartModel::TABLE ,$id_user,$id_variant, $quantity );
             if ($flag) {
                 echo json_encode(
                     array(
