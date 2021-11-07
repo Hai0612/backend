@@ -52,6 +52,23 @@ class ProductController extends BaseController
         }
     }
 
+    public function getFeatured() {
+        $products = $this->productModel->getFeaturedProduct(ProductModel::TABLE);
+        if (count($products) > 0) {
+            echo json_encode(
+                [
+                    'status' => 200,
+                    'payload' => $products
+                ]
+            );
+        } else {
+            echo json_encode(
+                [
+                    'status' => 404,
+                ]
+            );
+        }
+    }
     public function getByCategory()
     {
         if (isset($_GET['category'])) {

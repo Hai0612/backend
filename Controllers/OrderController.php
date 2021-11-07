@@ -12,10 +12,11 @@ class OrderController extends BaseController
     }
 
     public function getByStatus()
-    {
-        if (isset($_GET['orderstatus'])) {
+    {   
+        if (isset($_GET['orderstatus']) && isset($_POST['id_user'])) {
             $status = $_GET['orderstatus'];
-            $orders = $this->orderModel->getOrderByStatus(OrderModel::TABLE, $status);
+            $id_user = $_POST['id_user'];
+            $orders = $this->orderModel->getOrderByStatus(OrderModel::TABLE, $id_user, $status);
             if ($orders) {
                 echo json_encode(
                     [
@@ -32,4 +33,27 @@ class OrderController extends BaseController
             }
         }
     }
+
+    public function getDetail() {
+        if (isset($_GET['order_id'])) {
+            $id_order = $_GET['order_id'];
+            $products = $this->orderModel->getOrderDetail(OrderModel::TABLE, $id_order);
+            if ($products) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $products
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+
+
 }

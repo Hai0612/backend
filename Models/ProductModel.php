@@ -23,6 +23,12 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
+    public function getFeaturedProduct($table) {
+        $sql = "SELECT * FROM products order by sold desc limit 10;";
+        echo $sql;
+        return $this->queryWithSql($sql);
+    }
+
     public function getProductsByCategory($table, $category)
     {
         if ($category == 'All') {
