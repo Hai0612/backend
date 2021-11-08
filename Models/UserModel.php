@@ -16,9 +16,8 @@ class UserModel extends BaseModel
     }
     public function getLogin($table, $username)
     {
-        return $this->getWithCond($table, [
-            'username' => $username,
-        ]);
+        $sql = "SELECT * FROM user JOIN user_address on user.id = user_address.id_user WHERE user.username = '" . $username . "'";
+        return $this->queryWithSql($sql);
     }
     public function getUserInfo($table, $id)
     {

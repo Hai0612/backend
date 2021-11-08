@@ -23,6 +23,7 @@ class UserController extends BaseController
             $username = $_POST['username'];
             $password = $_POST['password'];
             $flag = $this->userModel->checkLogin(UserModel::TABLE, $username, $password);
+            $account = $this->userModel->getLogin(UserModel::TABLE, $username,$password);
             if ($flag) {
                 $token = JWT::encode([
                     'username' => $username,
@@ -30,7 +31,8 @@ class UserController extends BaseController
                 ], 'MD_5');
                 echo json_encode([
                     'status' => 200,
-                    'token' => $token
+                    'token' => $token,
+                    'account' => $account,
                 ]);
             } else {
                 echo json_encode([
@@ -90,7 +92,6 @@ class UserController extends BaseController
     }
     public function updateInfo()
     {
-        $info = false;
         if (isset($_POST['id'])) {
             $id = $_POST['id'];
             $first_name = $_POST['first_name'];
@@ -119,11 +120,11 @@ class UserController extends BaseController
     public function updateAddressInfo()
     {
         $info = false;
-        $_POST['id_user'] = 3;
-        $_POST['address'] = 'Địa chỉ mới';
-        $_POST['city'] = 'Thành phố mới';
-        $_POST['postal_code'] = 12345;
-        $_POST['country'] = 'Đất nước mới';
+        // $_POST['id_user'] = 3;
+        // $_POST['address'] = 'Địa chỉ mới';
+        // $_POST['city'] = 'Thành phố mới';
+        // $_POST['postal_code'] = 12345;
+        // $_POST['country'] = 'Đất nước mới';
         if (isset($_POST['id_user'])) {
             $id_user = $_POST['id_user'];
             $address = $_POST['address'];
@@ -161,7 +162,6 @@ class UserController extends BaseController
             $new_password = $_POST['new_password'];
             $oldPwdCheck = $this->userModel->checkUserPassword(UserModel::TABLE, $id, $old_password);
             if (count($oldPwdCheck) > 0) {
-                echo 'abcd';
                 $info = $this->userModel->updateUserPassword(UserModel::TABLE, $id, $new_password);
             };
             echo $info;
@@ -238,6 +238,13 @@ class UserController extends BaseController
 
     public function logout()
     {
+        //distroy session
+        echo json_encode(
+            [
+                'status' => 200,
+                'payload' => true
+            ]
+        );
     }
     public function decode($jwt, $secret)
     {
