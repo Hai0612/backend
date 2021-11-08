@@ -8,8 +8,8 @@ class OrderModel extends BaseModel
     }
 
     public function getOrderDetail($table, $id) {
-        $sql = "SELECT * FROM orders join order_details on orders.id = order_details.id_order join product_variant on product_variant.id = id_variant 
-        join image on products.id = image.id_product where image.type = 'thumbnail' and orders.id = {$id};";
+        $sql = "SELECT * FROM orders join order_details on orders.id = order_details.id_order join product_variant on product_variant.id = id_variant WHERE orders.id = {$id};";
+        echo $sql;
         return $this->queryWithSql($sql);
     }
 }

@@ -30,29 +30,6 @@ class ProductController extends BaseController
         }
     }
 
-    public function getImage() {
-        {
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
-                $images = $this->productModel->getProductImage(ProductModel::TABLE, $id);
-                if (count($images) > 0) {
-                    echo json_encode(
-                        [
-                            'status' => 200,
-                            'payload' => $images
-                        ]
-                    );
-                } else {
-                    echo json_encode(
-                        [
-                            'status' => 404,
-                        ]
-                    );
-                }
-            }
-        }
-    }
-
     public function getByIndex()
     {
         if (isset($_GET['id'])) {
@@ -185,7 +162,7 @@ class ProductController extends BaseController
     }
 
     public function searchMachine()
-    {   
+    {
         if (isset($_POST['searchText'])) {
             $text = $_POST['searchText'];
             $results_product = $this->productModel->fetchByMachineSearch($text);

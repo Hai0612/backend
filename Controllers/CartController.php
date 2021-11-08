@@ -12,7 +12,7 @@ class CartController extends BaseController
 
 
     public function index()
-    {   
+    {
         if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
             $id_user = $_POST['id_user'];
             $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");

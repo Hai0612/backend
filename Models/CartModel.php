@@ -14,10 +14,9 @@ class CartModel extends BaseModel
     }
     public function fetchCartByUser($id_user, $username)
     {
-        $sql = "SELECT cart.id, cart.id_user, cart.id_variant, products.name, cart.quantity, product_variant.color, product_variant.size, product_variant.price, image.url FROM cart INNER JOIN user ON cart.id_user = user.id 
+        $sql = "SELECT cart.id, cart.id_user, cart.id_variant, products.name, cart.quantity, product_variant.color, product_variant.size, product_variant.price FROM cart INNER JOIN user ON cart.id_user = user.id 
         INNER JOIN product_variant ON cart.id_variant = product_variant.id
-        INNER JOIN products on product_variant.id_product = products.id 
-        join image on products.id = image.id_product where image.type = 'thumbnail' and (cart.id_user = " . $id_user .  " OR user.username = '" . $username . "');";
+        INNER JOIN products on product_variant.id_product = products.id WHERE cart.id_user = " . $id_user .  " OR user.username = '" . $username . "';";
         return $this->queryWithSql($sql);
     }
 

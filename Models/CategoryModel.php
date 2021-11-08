@@ -54,7 +54,7 @@ class CategoryModel extends BaseModel
         if ($price != null) $conditions .= "product.price " .$priceRange . " AND ";
         if ($state != null) $conditions .= "datediff(now(), products.createAt) < 60 AND ";
         $conditions = substr($conditions, 0, -5);
-        $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id join image on products.id = image.id_product where image.type = "thumbnail" AND ' .$conditions . ";";
+        $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id WHERE  ' .$conditions . ";";
         //die();
         return $this->queryWithSql($sql);
     }
