@@ -160,7 +160,10 @@ class BaseModel extends Database{
         $row = "";
         foreach($data as $key => $value){
             $cols .= $key . ", ";
-            $row .= '\'' . $value  . '\'' . ', ';
+            if(is_int($value) || $value == 'now()'){
+                $row .=  $value   . ', ';
+            }
+             else $row .= '\'' . $value  . '\'' . ', ';
         }
         $cols = substr($cols, 0, -2);
         $row = substr($row, 0, -2);

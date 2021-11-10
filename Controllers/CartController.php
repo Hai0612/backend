@@ -12,7 +12,7 @@ class CartController extends BaseController
 
 
     public function index()
-    {
+    {   
         if (isset($_POST['id_user']) && $_POST['id_user'] !== '') {
             $id_user = $_POST['id_user'];
             $cart = $this->cartModel->fetchCartByUser($id_user, "nfdsfsf");
@@ -193,8 +193,16 @@ class CartController extends BaseController
 
         }
     }
-    public function deleteProductInCart()
+    public function deleteListProduct()
     {
+        if (isset($_POST['id_user']) && $_POST['products']) {
+            $id_user = $_POST['id_user'];
+            $products = $_POST['products'];
+            $flag = true;
+            foreach ($products as $key => $value) {
+                $flag = $this->cartModel->deleteProductInCart(CartModel::TABLE, $id_user, $value['id_variant']);
+              }
+        }
     }
     public function editProductInCart()
     {
@@ -211,6 +219,7 @@ class CartController extends BaseController
             }
         }
     }
+   
     public function test()
     {
         echo $_SERVER['HTTP_AUTHORIZATION'];

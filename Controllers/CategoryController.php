@@ -31,16 +31,12 @@ class CategoryController extends BaseController
 
     public function getByOption()
     {
-        $_POST['category'] = 'T-shirt';
-        $_POST['brand'] = 'Adidas';
-        $_POST['price'] = 'Từ 1 - 5 triệu';
-        $_POST['state'] = 1;
         if (isset($_POST['category']) && isset($_POST['brand']) && isset($_POST['price']) && isset($_POST['state'])) {
             $category  = $_POST['category'];
             $brand  = $_POST['brand'];
             $price  = $_POST['price'];
             $state  = $_POST['state'];
-            $products = $this->categoryModel->getProductsByOption(CategoryModel::TABLE, $category, $brand, null, $state);
+            $products = $this->categoryModel->getProductsByOption(CategoryModel::TABLE, $category, $brand, $price, $state);
             echo json_encode(
                 array(
                     'status' => '200',

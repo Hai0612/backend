@@ -14,18 +14,21 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
+    public function getProductImage($table, $id) {
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where products.id = {$id};";
+        return $this->queryWithSql($sql);
+    }
     public function getProductsByBrand($table, $brand)
     {
         if ($brand == 'All') {
             return $this->all($table);
         }
-        $sql = "SELECT * FROM products join brand on products.brand_id = brand.id_ where brand.name_brand = '" . $brand . "';";
+        $sql = "SELECT * FROM products join brand on products.brand_id = brand.id_ join image on products.id = image.id_product where image.type = 'thumbnail' and brand.name_brand = '" . $brand . "';";
         return $this->queryWithSql($sql);
     }
 
     public function getFeaturedProduct($table) {
-        $sql = "SELECT * FROM products order by sold desc limit 10;";
-        echo $sql;
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' order by sold desc limit 10;";
         return $this->queryWithSql($sql);
     }
 
@@ -34,7 +37,7 @@ class ProductModel extends BaseModel
         if ($category == 'All') {
             return $this->all($table);
         }
-        $sql = "SELECT * FROM products join product_category on products.category_id = product_category.id_ where product_category.name_category = '" . $category . "';";
+        $sql = "SELECT * FROM products join product_category on products.category_id = product_category.id_ join image on products.id = image.id_product where image.type = 'thumbnail' and product_category.name_category = '" . $category . "';";
         return $this->queryWithSql($sql);
     }
 
@@ -49,20 +52,21 @@ class ProductModel extends BaseModel
 
     public function getRelatedProducts($id)
     {
-        $sql = "SELECT * FROM products where products.category_id in (SELECT category_id FROM products where products.id =" . $id . ") and products.id != " . $id . ";";
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and products.category_id in (SELECT category_id FROM products where products.id =" . $id . ") and products.id != " . $id . ";";
         return $this->queryWithSql($sql);
     }
 
     public function getProductsByPrice($min, $max)
     {
-        $sql = "SELECT * FROM products where products.price >= " . $min . " and products.price <= " . $max . ";";
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and products.price >= " . $min . " and products.price <= " . $max . ";";
 
         return $this->queryWithSql($sql);
     }
 
     public function fetchByMachineSearch($text)
     {
-        $sql = 'SELECT * FROM `products` WHERE products.name like \'%' . $text . '%\';';
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and products.name like '%{$text}%';";
+        echo $sql;
         return $this->queryWithSql($sql);
     }
 

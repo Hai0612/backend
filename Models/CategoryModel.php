@@ -46,16 +46,18 @@ class CategoryModel extends BaseModel
             $priceRange = " BETWEEN  1000000  AND 5000000";
         }
         if($price === "Từ 5 - 10 triệu"){
-            $priceRange = " > 10000000";
+            $priceRange = " BETWEEN  5000000  AND 10000000";
+        }
+        if($price === "Trên 10 triệu"){
+            $priceRange = " > 10000000 ";
         }
         $conditions = "";
         if ($category != null) $conditions .= "product_category.name_category = '" .$category . "' AND ";
         if ($brand != null) $conditions .= "brand.name_brand = '" .$brand . "' AND ";
-        if ($price != null) $conditions .= "product.price " .$priceRange . " AND ";
+        if ($price != null) $conditions .= "products.price " .$priceRange . " AND ";
         if ($state != null) $conditions .= "datediff(now(), products.createAt) < 60 AND ";
         $conditions = substr($conditions, 0, -5);
-        $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id WHERE  ' .$conditions . ";";
-        //die();
+        $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id join image on products.id = image.id_product where image.type = "thumbnail" AND ' .$conditions . ";";
         return $this->queryWithSql($sql);
     }
     public function addProduct($table, $id, $name, $description, $category_id, $price, $discount_id)

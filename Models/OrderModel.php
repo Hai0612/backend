@@ -8,8 +8,27 @@ class OrderModel extends BaseModel
     }
 
     public function getOrderDetail($table, $id) {
-        $sql = "SELECT * FROM orders join order_details on orders.id = order_details.id_order join product_variant on product_variant.id = id_variant WHERE orders.id = {$id};";
-        echo $sql;
+        $sql = "SELECT * FROM orders join order_details on orders.id = order_details.id_order join product_variant on product_variant.id = id_variant  join products ON products.id = product_variant.id
+        join image on product_variant.id_product = image.id_product where image.type = 'thumbnail' and orders.id = {$id};";
         return $this->queryWithSql($sql);
+    }
+    public function insertOrder($table,  $id_user, $orderAddress, $totalAmount, $status){
+        $sql = "INSERT INTO `orders`( `id_user`, `orderDate`, `orderAddress`, `requiredDate`, `shippedDate`, `totalAmount`, `status`) 
+        VALUES ( ". $id_user . " , now(), '" .$orderAddress ."' , now()"   . " , now() , " . $totalAmount. ", '" .$status . "')";
+        $flag = $this->updateWithSql($sql);
+        if($flag){
+            $sql1 = "SELECT max(orders.id) as max FROM orders;";
+            $id = $this->queryWithSql($sql1);
+            return $id[0]['max'];
+        }
+    }
+    public function insertOrderDetail($table,  $id_order,$products){
+        $sql = '';
+        $flag = false;
+        foreach ($products as $key => $value) {
+            $sql = "INSERT INTO `order_details`(`id_order`, `id_variant`, `quantity_product`) VALUES (" . $id_order. ' , ' .$value['id_variant'] . " , "  . $value['quantity'] .");";
+            $flag =  $this->updateWithSql($sql);
+          }
+        return $flag;
     }
 }

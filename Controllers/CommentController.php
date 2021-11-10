@@ -11,10 +11,10 @@ class CommentController extends BaseController{
     public function addComment(){
 
         if(isset($_POST['content']) && isset($_POST['id_product'])){
-            $id_book = $_POST['id_product'];
+            $id_product = $_POST['id_product'];
             $id_user = $_POST['id_user'];
             $content = $_POST['content'];
-            $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user, $id_book, $content);
+            $flag =  $this->commentModel->addCmt(CommentModel::TABLE, $id_user, $id_product, $content);
             if ($flag) {
                 echo json_encode(
                     [
