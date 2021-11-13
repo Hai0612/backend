@@ -1,7 +1,7 @@
 <?php
 class CategoryModel extends BaseModel
 {
-    const TABLE = 'products';
+    const TABLE = 'product_category';
     const NUM_PRODUCT_A_PAGE = 9;
     // public function getAll($table, $line = NULL){
     //     return $this->all($table,['customerName','phone','city'], $line);
@@ -29,9 +29,8 @@ class CategoryModel extends BaseModel
         );
     }
 
-    public function fetchAllCategories() {
-        $sql = "SELECT * FROM product_category LIMIT 6";
-        return $this->queryWithSql($sql);
+    public function fetchAllCategories($table) {
+        return $this->all($table);
     }
 
     public function getProductsByOption($table, $category, $brand, $price, $state){

@@ -10,7 +10,13 @@ class OrderController extends BaseController
         $this->loadModel('OrderModel');
         $this->orderModel = new OrderModel;
     }
-
+    public function fetchAll(){
+        $orders = $this->orderModel->fetchAllOrder(OrderModel::TABLE);
+        echo json_encode([
+            'status' => 200,
+            'payload' => $orders,
+        ]);
+    }
     public function getByStatus()
     {   
         if (isset($_GET['orderstatus']) && isset($_POST['id_user'])) {

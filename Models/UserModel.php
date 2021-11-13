@@ -19,6 +19,11 @@ class UserModel extends BaseModel
         $sql = "SELECT * FROM user JOIN user_address on user.id = user_address.id_user WHERE user.username = '" . $username . "'";
         return $this->queryWithSql($sql);
     }
+
+    public function fetchAllUser($table) {
+        return $this->all($table);
+    }
+
     public function getUserInfo($table, $id)
     {
         $sql = "SELECT * FROM user join user_address on user.id = user_address.id_user where user.id = {$id};";

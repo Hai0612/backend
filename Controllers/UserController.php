@@ -17,6 +17,13 @@ class UserController extends BaseController
         print_r($_SESSION);
         echo "ffd";
     }
+    public function fetchAll(){
+        $users = $this->userModel->fetchAllUser(UserModel::TABLE);
+        echo json_encode([
+            'status' => 200,
+            'payload' => $users,
+        ]);
+    }
     public function login()
     {
         if (isset($_POST['username']) && isset($_POST['password'])) {

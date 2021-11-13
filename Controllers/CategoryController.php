@@ -48,7 +48,7 @@ class CategoryController extends BaseController
 
     public function fetchAll()
     {
-        $categories = $this->categoryModel->fetchAllCategories();
+        $categories = $this->categoryModel->fetchAllCategories(CategoryModel::TABLE);
         echo json_encode(
             array(
                 'status' => '200',
