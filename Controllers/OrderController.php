@@ -55,7 +55,6 @@ class OrderController extends BaseController
         }
     }
     public function addOrder(){
-          
         if (isset($_POST['id_user']) && $_POST['orderAddress'] && $_POST['totalAmount'] && $_POST['status']) {
             $id_user = $_POST['id_user'];
             $orderAddress = $_POST['orderAddress'];

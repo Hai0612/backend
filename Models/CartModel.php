@@ -110,4 +110,8 @@ class CartModel extends BaseModel
             'id_product' => $id_product,
         ]);
     }
+    public function getNumberCart($table , $id_user){
+        $sql = "SELECT sum(cart.quantity) as total from cart GROUP BY cart.id_user HAVING id_user = " . $id_user;
+        return $this->queryWithSql($sql);
+    }
 }

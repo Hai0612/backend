@@ -219,6 +219,19 @@ class CartController extends BaseController
             }
         }
     }
+    public function getNumberInCart(){
+        if(isset($_POST['id_user'])){
+            $id_user = $_POST['id_user'];
+            $number = $this->cartModel->getNumberCart(CartModel::class, $id_user);
+            echo json_encode(
+                array(
+                    'status' => 200,
+                    'payload' => $number[0]['total'],
+                )
+            );
+         
+        }
+    }
    
     public function test()
     {

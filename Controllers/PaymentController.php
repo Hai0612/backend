@@ -9,6 +9,7 @@ class PaymentController extends BaseController
         $this->paymentModel = new PaymentModel;
     }
     public function insertUserPayment(){
+
         if(isset($_POST['user_id']) && isset($_POST['card_type']) && isset($_POST['provider']) && isset($_POST['account_no']) && isset($_POST['expiry'])){
             $user_id = $_POST['user_id'] ;
             $card_type = $_POST['card_type'] ;
