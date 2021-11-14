@@ -30,8 +30,8 @@ class ProductController extends BaseController
         }
     }
 
-    public function getImage() {
-        {
+    public function getImage()
+    { {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
                 $images = $this->productModel->getProductImage(ProductModel::TABLE, $id);
@@ -75,7 +75,8 @@ class ProductController extends BaseController
         }
     }
 
-    public function getFeatured() {
+    public function getFeatured()
+    {
         $products = $this->productModel->getFeaturedProduct(ProductModel::TABLE);
         if (count($products) > 0) {
             echo json_encode(
@@ -185,7 +186,7 @@ class ProductController extends BaseController
     }
 
     public function searchMachine()
-    {   
+    {
         if (isset($_POST['searchText'])) {
             $text = $_POST['searchText'];
             $results_product = $this->productModel->fetchByMachineSearch($text);
@@ -198,16 +199,86 @@ class ProductController extends BaseController
         }
     }
 
+    public function addProduct()
+    {
+        // $_POST['id'] = 105;
+        // $_POST['name'] = "Sản phẩm test 2 ";
+        // $_POST['description'] = "test 3";
+        // $_POST['category'] = 'Shirt';
+        // $_POST['brand'] = 'Nike';
+        // $_POST['price'] = 100000;
+        // $_POST['discount_id'] = 2;
+        if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['category']) && isset($_POST['brand']) && isset($_POST['price'])) {
+            $id = $_POST['id'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $category_id = $this->productModel->getProductCategoryId($_POST['category']);
+            if ($category_id) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $category_id
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                        'payload' => 'category unexist'
+                    ]
+                );
+            }
+
+            $brand_id = $this->productModel->getProductBrandId($_POST['brand']);
+            if ($brand_id) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $brand_id
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                        'payload' => 'brand unexist'
+                    ]
+                );
+            }
+
+            $price =  $_POST['price'];
+            $discount_id = $_POST['discount_id'];
+            $flag = $this->productModel->insertProduct(ProductModel::TABLE, $id, $name, $description, $category_id, $brand_id, $price, $discount_id);
+        }
+        if ($flag) {
+            echo json_encode(
+                [
+                    'status' => 200,
+                    'payload' => $flag
+                ]
+            );
+        } else {
+            echo json_encode(
+                [
+                    'status' => 404,
+                ]
+            );
+        }
+    }
     public function editProduct()
     {
-        if (isset($_POST['name']) && isset($_POST['id'])) {
+        // $_POST['id'] = 103;
+        // $_POST['name'] = "Sản phẩm test sau khi edit";
+        // $_POST['description'] = "test new";
+        // $_POST['price'] = 100000;
+        // $_POST['discount_id'] = 1;
+        if (isset($_POST['name']) && isset($_POST['id']) && isset($_POST['price'])) {
             $id = $_POST['id'];
             $name  = $_POST['name'];
             $desciption = $_POST['description'];
-            $category_id  = $_POST['category_id'];
             $price = $_POST['price'];
             $discount_id = $_POST['discount_id'];
-            $flag = $this->bookModel->editBookById(ProductModel::TABLE, $id, $name, $desciption, $category_id, $price, $discount_id);
+            $flag = $this->productModel->editProductById(ProductModel::TABLE, $id, $name, $desciption, $price, $discount_id);
             if ($flag) {
                 echo json_encode(
                     array(
@@ -227,6 +298,7 @@ class ProductController extends BaseController
 
     public function deleteProductById()
     {
+        // $_POST['id'] = 103;
         if (isset($_POST['id'])) {
             $flag = $this->productModel->deleteById(ProductModel::TABLE, $_POST['id']);
             if ($flag) {
@@ -244,6 +316,28 @@ class ProductController extends BaseController
         }
     }
 
+    public function getCategoryId()
+    { {
+            if (isset($_GET['text'])) {
+                $text = $_GET['text'];
+                $category_id = $this->productModel->getProductCategoryId(ProductModel::TABLE, $text);
+                if ($category_id) {
+                    echo json_encode(
+                        [
+                            'status' => 200,
+                            'payload' => $category_id,
+                        ]
+                    );
+                } else {
+                    echo json_encode(
+                        [
+                            'status' => 404,
+                        ]
+                    );
+                }
+            }
+        }
+    }
     //--------------------------
     public function index()
     {
