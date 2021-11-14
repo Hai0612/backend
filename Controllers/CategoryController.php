@@ -57,6 +57,82 @@ class CategoryController extends BaseController
         );
     }
     
+    public function addCategory()
+    {   
+        // $_POST['name_category'] = "category";
+        // $_POST['desc_category'] = "new desc";
+        // $_POST['image'] = "new image"; 
+        if (isset($_POST['name_category']) && isset($_POST['desc_category']) && isset($_POST['image'])) {
+            $name_category = $_POST['name_category'];
+            $desc_category = $_POST['desc_category'];
+            $image = $_POST['image'];
+            $flag = $this->categoryModel->insertCategory(CategoryModel::TABLE, $name_category, $desc_category, $image);
+        }
+        if ($flag) {
+            echo json_encode(
+                [
+                    'status' => 200,
+                    'payload' => $flag
+                ]
+            );
+        } else {
+            echo json_encode(
+                [
+                    'status' => 404,
+                ]
+            );
+        }
+    }
+
+    public function editCategory()
+    {   
+        // $_POST['id_'] = 10;
+        // $_POST['name_category'] = "new name";
+        // $_POST['desc_category'] = "newer desc";
+        // $_POST['image'] = "newer image";
+        if (isset($_POST['id_']) && isset($_POST['name_category']) && isset($_POST['desc_category']) && isset($_POST['image'])) {
+            $id_ = $_POST['id_'];
+            $name_category = $_POST['name_category'];
+            $desc_category = $_POST['desc_category'];
+            $image = $_POST['image'];
+            $flag = $this->categoryModel->editCategoryById(CategoryModel::TABLE, $id_, $name_category, $desc_category, $image);
+            if ($flag) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $flag,
+                    )
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+
+
+    public function deleteCategory()
+    {   
+        // $_POST['id_'] = 10;
+        if (isset($_POST['id_'])) {
+            $flag = $this->categoryModel->deleteById(CategoryModel::TABLE, $_POST['id_']);
+            if ($flag) {
+                echo json_encode([
+                    'status' => 200,
+                    'message' => 'ok'
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 400,
+                    'message' => 'bad request'
+                ]);
+            }
+            exit;
+        }
+    }
     // public function addProductByCategory()
     // {
     //     $id = 21;

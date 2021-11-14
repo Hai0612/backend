@@ -14,7 +14,8 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
-    public function getProductImage($table, $id) {
+    public function getProductImage($table, $id)
+    {
         $sql = "SELECT * FROM products join image on products.id = image.id_product where products.id = {$id};";
         return $this->queryWithSql($sql);
     }
@@ -27,7 +28,8 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
-    public function getFeaturedProduct($table) {
+    public function getFeaturedProduct($table)
+    {
         $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' order by sold desc limit 10;";
         return $this->queryWithSql($sql);
     }
@@ -41,7 +43,7 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
-    
+
     // public function sortProduct($table, $criteria, $order)
     // {
 
@@ -72,16 +74,16 @@ class ProductModel extends BaseModel
 
 
 
-    public function editProductById($table, $id, $name, $description, $category_id, $price, $discount_id)
+    public function editProductById($table, $id, $name, $description, $price, $discount_id)
     {
 
         return $this->editDbWithCond($table, [
-            'id' => $id,
             'name' => $name,
             'description' => $description,
-            'category_id' => $category_id,
             'price' => $price,
             'discount_id' => $discount_id,
+        ], [
+            'id' => $id,
         ]);
     }
 
@@ -93,7 +95,21 @@ class ProductModel extends BaseModel
         ]);
     }
 
-
+   
+    public function insertProduct($table, $name, $description, $category_id, $brand_id, $price, $discount_id)
+    {   
+        
+        return $this->insertDB($table, [
+            'name' => $name,
+            'description' => $description,
+            'category_id' => $category_id,
+            'brand_id' => $brand_id,
+            'price' => $price,
+            'discount_id' => $discount_id,
+            'createAt' => date("y-m-d"),
+            'sold' => 0,
+        ]);
+    }
     //-------------------------------
     public function getAll($table, $pageNumber = null)
     {
@@ -116,6 +132,18 @@ class ProductModel extends BaseModel
         return $this->getWithGroup($table, [
             'productLine',
         ]);
+    }
+
+    public function getProductCategoryId($category) {
+        $sql = "SELECT id_ FROM product_category WHERE name_category = '{$category}';";
+        $category_id = $this->queryWithSql($sql)[0]['id_'];
+        return (int)$category_id;
+    }
+
+    public function getProductBrandId($brand) {
+        $sql = "SELECT id_ FROM brand WHERE name_brand = '{$brand}';";
+        $brand_id = $this->queryWithSql($sql)[0]['id_'];
+        return (int)$brand_id;
     }
     // public function findByProductCode($table, $productCode){
     //     return $this->findProductCode($table, $productCode);

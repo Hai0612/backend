@@ -59,15 +59,32 @@ class CategoryModel extends BaseModel
         $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id join image on products.id = image.id_product where image.type = "thumbnail" AND ' .$conditions . ";";
         return $this->queryWithSql($sql);
     }
-    public function addProduct($table, $id, $name, $description, $category_id, $price, $discount_id)
+
+    public function insertCategory($table, $name_category, $desc_category, $image)
     {
         return $this->insertDB($table, [
-            'id' => $id,
-            'name' => $name,
-            '$description' => $description,
-            'category_id' => $category_id,
-            'price' => $price,
-            'discount_id' => $discount_id,
+            'name_category' => $name_category,
+            'desc_category' => $desc_category,
+            'image' => $image,
+        ]);
+    }
+
+    public function editCategoryById($table, $id_, $name_category, $desc_category, $image)
+    {
+
+        return $this->editDbWithCond($table, [
+            'name_category' => $name_category,
+            'desc_category' => $desc_category,
+            'image' => $image,
+        ], [
+            'id_' => $id_,
+        ]);
+    }
+
+    public function deleteByID($table, $id_)
+    {
+        return $this->deleteWithCond($table, [
+            'id_' => $id_
         ]);
     }
 }
