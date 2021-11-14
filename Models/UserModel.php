@@ -41,7 +41,7 @@ class UserModel extends BaseModel
         ]);
         if (!$flag) {
             $flag = $this->addAccount($username, $password, $first_name, $last_name, $date, $email, $phone, $url);
-            $this->addUserInfo($address, $city, $postal_code, $country);
+            $flag = $this->addUserInfo($address, $city, $postal_code, $country);
         }
         return $flag;
     }

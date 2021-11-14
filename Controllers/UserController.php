@@ -217,12 +217,12 @@ class UserController extends BaseController
             $last_name = $_POST['last_name'];
             $email = $_POST['email'];
             $date =  $_POST['date'];
-            $url = 'abcde.xyz/' . $username;
+            $url = $_POST['url'];
             $address = $_POST['address'];
             $city = $_POST['city'];
             $postal_code = $_POST['postal_code'];
             $country = $_POST['country'];
-            $phone = $_POST['telephone'];
+            $phone = $_POST['phone'];
             $flag = $this->userModel->signup(UserModel::TABLE, $username, $password, $first_name, $last_name, $date, $email, $phone, $url, $address, $city, $postal_code, $country);
         }
         if ($flag) {
