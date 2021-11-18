@@ -25,7 +25,7 @@ class CartModel extends BaseModel
         $sql = "SELECT cart.id, cart.id_user, cart.id_variant, products.name, cart.quantity, product_variant.color, product_variant.size, product_variant.price, image.url FROM cart INNER JOIN user ON cart.id_user = user.id 
         INNER JOIN product_variant ON cart.id_variant = product_variant.id
         INNER JOIN products on product_variant.id_product = products.id 
-        join image on products.id = image.id_product where image.type = 'thumbnail' and (cart.id_user = " . $id_user .  " OR user.username = '" . $username . "');";
+        join image on products.id = image.id_product where image.type = 'thumbnail' and cart.status = 0 and (cart.id_user = " . $id_user .  " OR user.username = '" . $username . "');";
         return $this->queryWithSql($sql);
     }
 
@@ -97,7 +97,12 @@ class CartModel extends BaseModel
         ]);
     }
     public function getNumberCart($table , $id_user){
-        $sql = "SELECT sum(cart.quantity) as total from cart GROUP BY cart.id_user HAVING id_user = " . $id_user;
+        $sql = "SELECT sum(cart.quantity) as total from cart WHERE status = 0 GROUP BY cart.id_user HAVING id_user = " . $id_user;
+        
         return $this->queryWithSql($sql);
+    }
+    public function changStatusCart($table, $id_user, $id_variant, $value){
+        $sql = "UPDATE cart SET cart.status = ".$value." WHERE cart.id_user = " .$id_user . " AND cart.id_variant = " .$id_variant; 
+        return $this->updateWithSql($sql);
     }
 }

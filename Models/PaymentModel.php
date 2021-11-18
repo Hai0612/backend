@@ -10,6 +10,7 @@ class PaymentModel extends BaseModel
         $flag = $this->checkExistInDB($table,[
             'user_id' =>$user_id,
             'card_type' => $card_type,
+            'account_no' => 0,
         ]);
         if($flag){
             return 0;

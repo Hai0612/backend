@@ -8,6 +8,10 @@ class OrderModel extends BaseModel
         $sql = "SELECT * FROM {$table} WHERE status = '{$status}' AND id_user = {$id_user};";
         return $this->queryWithSql($sql);
     }
+    public function countAllOrder($table){
+        $sql = "SELECT COUNT(*) as total FROM " .$table;
+        return $this->queryWithSql($sql);
+    }
     public function fetchAllOrder($table)
     {
         return $this->all($table);

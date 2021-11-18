@@ -86,27 +86,34 @@ class OrderController extends BaseController
         
     }
     public function addOrderDetail(){
-      
-    if (isset($_POST['products']) && $_POST['id_order']) {
-        $products = $_POST['products'];
-        $id_order = $_POST['id_order'];
-        // print_r($products);
-        $flag = $this->orderModel->insertOrderDetail(OrderModel::TABLE,$id_order, $products);
-        if ($flag) {
-            echo json_encode(
-                [
-                    'status' => 200,
-                    'payload' => $flag
-                ]
-            );
-        } else {
-            echo json_encode(
-                [
-                    'status' => 404,
-                ]
-            );
+      if (isset($_POST['products']) && $_POST['id_order']) {
+            $products = $_POST['products'];
+            $id_order = $_POST['id_order'];
+            // print_r($products);
+            $flag = $this->orderModel->insertOrderDetail(OrderModel::TABLE,$id_order, $products);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $flag
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
         }
     }
-}
+    public function countOrder(){
+        $count = $this->orderModel->countAllOrder(OrderModel::TABLE);
+        echo json_encode([
+            'status' => 200,
+            'payload' => $count[0]['total'],
+        ]);
+    }
+
 
 }

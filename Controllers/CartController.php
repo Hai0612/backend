@@ -143,6 +143,29 @@ class CartController extends BaseController
             }
         }
     }
+    public function changeStatus(){
+        if (isset($_POST['id_variant']) && isset($_POST['id_user']) && isset($_POST['value'])) {
+            $id_variant = $_POST['id_variant'];
+            $id_user = $_POST['id_user'];
+            $value = $_POST['value'];
+            $flag = $this->cartModel->changStatusCart(CartModel::TABLE ,$id_user,$id_variant , $value);
+            if ($flag) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $flag,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
 
     //------------------------------------------------------
     public function showCart()
@@ -223,12 +246,22 @@ class CartController extends BaseController
         if(isset($_POST['id_user'])){
             $id_user = $_POST['id_user'];
             $number = $this->cartModel->getNumberCart(CartModel::class, $id_user);
-            echo json_encode(
-                array(
-                    'status' => 200,
-                    'payload' => $number[0]['total'],
-                )
-            );
+            if(count($number) == 0){
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => 0,
+                    )
+                );
+            }else{
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $number[0]['total'],
+                    )
+                );
+            }
+            
          
         }
     }
