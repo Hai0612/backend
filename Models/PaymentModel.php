@@ -7,14 +7,22 @@ class PaymentModel extends BaseModel
 
     }
     public function insertUserPay($table ,$user_id, $card_type, $provider, $account_no, $expiry ){
-        return $this->insertDB($table ,[
-            'user_id' => $user_id,
+        $flag = $this->checkExistInDB($table,[
+            'user_id' =>$user_id,
             'card_type' => $card_type,
-            'provider' => $provider,
-            'account_no' => $account_no,
-            'expiry' => $expiry
-            ]
-        );
+        ]);
+        if($flag){
+            return 0;
+        }else{
+            return $this->insertDB($table ,[
+                'user_id' => $user_id,
+                'card_type' => $card_type,
+                'provider' => $provider,
+                'account_no' => $account_no,
+                'expiry' => $expiry
+                ]
+            );
+        }
     }
     public function insertPayDet($table,$id, $payment_type, $card_id){
         return $this->insertDB($table ,[

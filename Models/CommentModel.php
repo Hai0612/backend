@@ -16,8 +16,6 @@ class CommentModel extends BaseModel {
         return $this->queryWithSql($table,  $sql);
     }
     public function addCmt($table, $id_user, $id_product, $content){   
-        // $length_id = 10;    
-        // $id_comment =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length_id);     
         return $this->insertDB($table, [
             'id_user' => $id_user,
             'id_product' => $id_product,

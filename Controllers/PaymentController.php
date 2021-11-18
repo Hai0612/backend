@@ -33,8 +33,34 @@ class PaymentController extends BaseController
             }
         }
     }
+    public function insertUserPaymentCOD(){
+
+        if(isset($_POST['user_id']) && isset($_POST['card_type']) && isset($_POST['provider']) && isset($_POST['account_no']) && isset($_POST['expiry'])){
+            $user_id = $_POST['user_id'] ;
+            $card_type = $_POST['card_type'] ;
+            $provider = $_POST['provider'] ;
+            $account_no = $_POST['account_no'] ;
+            $expiry = $_POST['expiry'] ;
+            $flag = $this->paymentModel->insertUserPay(PaymentModel::TABLE2, $user_id, $card_type, $provider, $account_no, $expiry);
+            if ($flag) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $flag  
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+
+    
     public function insertPaymentDetail(){
-        
         if(isset($_POST['id']) && isset($_POST['payment_type']) && isset($_POST['card_id'])){
             $id = $_POST['id'] ;
             $payment_type = $_POST['payment_type'] ;

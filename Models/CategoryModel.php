@@ -3,18 +3,14 @@ class CategoryModel extends BaseModel
 {
     const TABLE = 'product_category';
     const NUM_PRODUCT_A_PAGE = 9;
-    // public function getAll($table, $line = NULL){
-    //     return $this->all($table,['customerName','phone','city'], $line);
-    // }
+   
 
     public function findByProductCode($table, $productCode)
     {
         // return $this->findProductCode($table, $productCode);
 
     }
-    // public function getByCategory($table, $category){
-    //     return $this->getByCategory($table, $category);
-    // }
+   
     public function showbyCategoryId($table, $category_id = NULL, $page = NULL)
     {
         return $this->getWithCond(
@@ -38,7 +34,7 @@ class CategoryModel extends BaseModel
         if($price === "0 - 500.000") {
             $priceRange = " BETWEEN  0  AND 500000";
         }
-        if($price === "Dưới 1 triệu"){
+        if($price === "Từ 500.000 - 1 triệu"){
             $priceRange = " BETWEEN  500000  AND 1000000";
         }
         if($price === "Từ 1 - 5 triệu"){
@@ -54,7 +50,12 @@ class CategoryModel extends BaseModel
         if ($category != null) $conditions .= "product_category.name_category = '" .$category . "' AND ";
         if ($brand != null) $conditions .= "brand.name_brand = '" .$brand . "' AND ";
         if ($price != null) $conditions .= "products.price " .$priceRange . " AND ";
-        if ($state != null) $conditions .= "datediff(now(), products.createAt) < 60 AND ";
+        if ($state != null && $state =='Sản phẩm mới') {
+            $conditions .= "datediff(now(), products.createAt) < 60 AND ";
+        }else if($state != null && $state =='Sản phẩm cũ'){
+            $conditions .= "datediff(now(), products.createAt) > 60 AND ";
+
+        }
         $conditions = substr($conditions, 0, -5);
         $sql = 'SELECT * FROM products JOIN brand ON brand.id_ = products.brand_id JOIN product_category on product_category.id_ = products.category_id join image on products.id = image.id_product where image.type = "thumbnail" AND ' .$conditions . ";";
         if(substr($sql,strlen($sql)- 5,3) == 'AND'){

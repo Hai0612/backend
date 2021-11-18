@@ -133,23 +133,5 @@ class CategoryController extends BaseController
             exit;
         }
     }
-    // public function addProductByCategory()
-    // {
-    //     $id = 21;
-    //     $name =  'Áo siêu nhân';
-    //     $description = 'Áo có hình siêu nhân';
-    //     $category_id = 1;
-    //     $inventory_id = 21;
-    //     $price = 40000;
-    //     $discount_id = 1;
-
-
-    //     $id = $_POST['id'] ? $_POST['id'] : false;
-    //     $name =  $_POST['name'] ? $_POST['name'] : false;
-    //     $description = $_POST['description'] ? $_POST['description'] : false;
-    //     $category_id = $_GET['category_id'] ? $_GET['category_id'] : false;
-    //     $price = $_POST['price'] ? $_POST['price'] : false;
-    //     $discount_id = $_POST['discount_id'] ? $_POST['discount_id'] : false;
-    //     $this->categoryModel->addProduct(CategoryModel::TABLE, $id, $name, $description, $category_id, $price, $discount_id);
-    // }
+   
 }

@@ -85,29 +85,7 @@ class CartModel extends BaseModel
         }
 
 
-        //     $sql_get_id_consumer = "SELECT id_consumer FROM consumers WHERE consumers.username = " . "'" .$_COOKIE['username'] . "'";
-        //     $res = mysqli_query($connect, $sql_get_id_consumer);
-        //     $id_consumer = mysqli_fetch_row($res);
-
-        // foreach($cart as $key => $value){
-        //     $sql_getNum_current = "SELECT quantity FROM `carts` WHERE productCode = '" .$value['productCode']."' AND id_consumer = '" .$id_consumer[0] . "'";
-        //     if(count(mysqli_fetch_all(mysqli_query($connect, $sql_getNum_current))) > 0){
-        //         $num_in_table = mysqli_fetch_row(mysqli_query($connect, $sql_getNum_current))[0];
-        //         if($num_in_table < $cart[$productCode]["quantity"]){
-        //             echo "ýe";
-        //             echo $cart[$productCode]['productCode'] . "    " . $num_in_table;
-        //             $sql_delete = "DELETE FROM `carts` WHERE productCode = '" .$value['productCode']."' AND id_consumer = '" .$id_consumer[0] . "'";
-        //             $query = mysqli_query($connect, $sql_delete);
-        //             $sql_push_to_cart = "INSERT INTO `carts`(`productCode`, `id_consumer`, `quantity`, `order_time`) VALUES ('". $value['productCode']."','".$id_consumer[0] ."','" . $cart[$productCode]["quantity"] ."',' ". date("Y-m-d h:i:sa") ."')";
-        //             $result = mysqli_query($connect, $sql_push_to_cart);
-        //         }
-        //     }else{
-        //         $sql_push_to_cart = "INSERT INTO `carts`(`productCode`, `id_consumer`, `quantity`, `order_time`) VALUES ('". $value['productCode']."','".$id_consumer[0] ."','" . $cart[$productCode]["quantity"] ."',' ". date("Y-m-d h:i:sa") ."')";
-        //         $result = mysqli_query($connect, $sql_push_to_cart);
-        //     }
-
-        // }
-
+     
         $_SESSION['cart'] = $cart;
         return $_SESSION['cart'];
     }

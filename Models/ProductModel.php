@@ -30,7 +30,7 @@ class ProductModel extends BaseModel
 
     public function getFeaturedProduct($table)
     {
-        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' order by sold desc limit 10;";
+        $sql = "SELECT products.name, products.description, image.url FROM products join image on products.id = image.id_product where image.type = 'thumbnail' order by sold desc limit 10;";
         return $this->queryWithSql($sql);
     }
 
@@ -44,17 +44,11 @@ class ProductModel extends BaseModel
     }
 
 
-    // public function sortProduct($table, $criteria, $order)
-    // {
-
-    //     return $this->getWithCond($table, null, null, null, [
-    //         $criteria => $order
-    //     ]);
-    // }
+    
 
     public function getRelatedProducts($id)
     {
-        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and products.category_id in (SELECT category_id FROM products where products.id =" . $id . ") and products.id != " . $id . ";";
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and products.category_id in (SELECT category_id FROM products where products.id =" . $id . ") and products.id != " . $id . " LIMIT 10;";
         return $this->queryWithSql($sql);
     }
 
