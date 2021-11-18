@@ -8,7 +8,27 @@ class VariantController extends BaseController
         $this->loadModel('VariantModel');
         $this->variantModel = new VariantModel;
     }
-
+    public function fetchPriceBySize(){
+        if (isset($_POST['size']) && isset($_POST['id_product'])) {
+            $size = $_POST['size'];
+            $id_product = $_POST['id_product'];
+            $price = $this->variantModel->getPriceBySize(VariantModel::TABLE,$size, $id_product);
+            if ($price !== null) {
+                echo json_encode(
+                    [
+                        'status' => 200,
+                        'payload' => $price
+                    ]
+                );
+            } else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
     public function getByProductIndex()
     {   
         if (isset($_GET['id_product'])) {
