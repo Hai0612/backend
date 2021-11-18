@@ -105,4 +105,9 @@ class CartModel extends BaseModel
         $sql = "UPDATE cart SET cart.status = ".$value." WHERE cart.id_user = " .$id_user . " AND cart.id_variant = " .$id_variant; 
         return $this->updateWithSql($sql);
     }
+    public function resetStatusByUser($table, $id_user){
+        $sql = "UPDATE cart SET cart.status = 0 WHERE cart.id_user = " . $id_user. " AND cart.status = 1";
+        return $this->updateWithSql($sql);
+    }
+    
 }

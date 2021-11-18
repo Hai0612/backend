@@ -166,7 +166,28 @@ class CartController extends BaseController
             }
         }
     }
-
+    public function resetStatus(){
+        if (isset($_POST['id_user'])) {
+            $id_user = $_POST['id_user'];
+            $flag = $this->cartModel->resetStatusByUser(CartModel::TABLE ,$id_user);
+            if ($flag) {
+                echo json_encode(
+                    array(
+                        'status' => 200,
+                        'payload' => $flag,
+                    )
+                );
+            }
+            else {
+                echo json_encode(
+                    [
+                        'status' => 404,
+                    ]
+                );
+            }
+        }
+    }
+    
     //------------------------------------------------------
     public function showCart()
     {
