@@ -83,9 +83,21 @@ class ProductModel extends BaseModel
 
     public function deleteByID($table, $id)
     {
-        return $this->deleteWithCond($table, [
-            'id' => $id
+        // $sql = "DELECTE FROM image WHERE image.id_product = " . $id;
+        $flag = $this->deleteWithCond('image',[
+            'id_product' => $id,
         ]);
+        $flag = $this->deleteWithCond('product_variant',[
+            'id_product' => $id
+        ]);
+        if($flag){
+            return $this->deleteWithCond($table, [
+                'id' => $id
+            ]);
+        }else{
+            return false;
+        }
+        
     }
 
    
