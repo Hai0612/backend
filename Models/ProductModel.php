@@ -70,7 +70,6 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
-
     public function editProductById($table, $id, $name, $description, $price, $discount_id)
     {
 
