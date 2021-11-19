@@ -65,6 +65,10 @@ class ProductModel extends BaseModel
         return $this->queryWithSql($sql);
     }
 
+    public function fullTextSearch($text) {
+        $sql = "SELECT * FROM products join image on products.id = image.id_product where image.type = 'thumbnail' and MATCH(name) AGAINST('{$text}');";
+        return $this->queryWithSql($sql);
+    }
 
 
     public function editProductById($table, $id, $name, $description, $price, $discount_id)

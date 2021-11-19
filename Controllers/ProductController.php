@@ -189,31 +189,44 @@ class ProductController extends BaseController
     {
         if (isset($_POST['searchText'])) {
             $text = $_POST['searchText'];
-            $results_product = $this->productModel->fetchByMachineSearch($text);
-            echo json_encode(
-                array(
-                    'status' => '200',
-                    'payload' => $results_product
-                )
-            );
+            $results_product = $this->productModel->fullTextSearch($text);
+            if (count($results_product) > 0) {
+                echo json_encode(
+                    array(
+                        'status' => '200',
+                        'payload' => $results_product
+                    )
+                );
+            } else {
+                $results_product = $this->productModel->fetchByMachineSearch($text);
+                if (count($results_product) > 0) {
+                    echo json_encode(
+                        array(
+                            'status' => '200',
+                            'payload' => $results_product
+                        )
+                    );
+                } else {
+                    echo json_encode(
+                        [
+                            'status' => 404,
+                        ]
+                    );
+                }
+            }
         }
     }
 
     public function addProduct()
     {
-        // $_POST['name'] = "Sản phẩm test 2 ";
-        // $_POST['description'] = "test 3";
-        // $_POST['category'] = 'Shirt';
-        // $_POST['brand'] = 'Nike';
-        // $_POST['price'] = 100000;
-        // $_POST['discount_id'] = 2;
+
         if (isset($_POST['name']) && isset($_POST['category']) && isset($_POST['brand']) && isset($_POST['price'])) {
             $name = $_POST['name'];
             $description = $_POST['description'];
             $category_id = $this->productModel->getProductCategoryId($_POST['category']);
-            
+
             $brand_id = $this->productModel->getProductBrandId($_POST['brand']);
-            
+
             $price =  $_POST['price'];
             $discount_id = $_POST['discount_id'];
             $flag = $this->productModel->insertProduct(ProductModel::TABLE, $name, $description, $category_id, $brand_id, $price, $discount_id);
@@ -235,11 +248,6 @@ class ProductController extends BaseController
     }
     public function editProduct()
     {
-        // $_POST['id'] = 103;
-        // $_POST['name'] = "Sản phẩm test sau khi edit";
-        // $_POST['description'] = "test new";
-        // $_POST['price'] = 100000;
-        // $_POST['discount_id'] = 1;
         if (isset($_POST['name']) && isset($_POST['id']) && isset($_POST['price'])) {
             $id = $_POST['id'];
             $name  = $_POST['name'];
